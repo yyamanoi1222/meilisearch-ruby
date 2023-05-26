@@ -31,9 +31,10 @@ module MeiliSearch
 
     # Usage:
     # client.create_index('indexUID')
-    # client.create_index('indexUID', { primaryKey: 'id' })
-    # client.create_index('indexUID', { primaryKey: 'id' }, wait: true)
-    def create_index(index_uid, options = {}, wait: false)
+    # client.create_index('indexUID', primaryKey: 'id')
+    # client.create_index('indexUID', primaryKey: 'id', wait: true)
+    def create_index(index_uid, options = {})
+      wait = options.delete(:wait) { false }
       body = Utils.transform_attributes(options.merge(uid: index_uid))
 
       task = http_post '/indexes', body

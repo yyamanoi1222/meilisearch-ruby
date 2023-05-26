@@ -15,7 +15,7 @@ RSpec.describe MeiliSearch::Index do
   end
 
   it 'fetch the raw Hash info of the index' do
-    client.create_index('books', { primaryKey: 'reference_number' }, wait: true)
+    client.create_index('books', primaryKey: 'reference_number', wait: true)
 
     raw_index = client.fetch_raw_index('books')
 
@@ -37,7 +37,7 @@ RSpec.describe MeiliSearch::Index do
   end
 
   it 'get primary-key of index if it exists' do
-    client.create_index('index_with_prirmary_key', { primaryKey: 'primary_key' }, wait: true)
+    client.create_index('index_with_prirmary_key', primaryKey: 'primary_key', wait: true)
 
     index = client.fetch_index('index_with_prirmary_key')
     expect(index.primary_key).to eq('primary_key')
@@ -70,7 +70,7 @@ RSpec.describe MeiliSearch::Index do
   end
 
   it 'updates primary-key of index if has been defined before but there is not docs' do
-    client.create_index('books', { primaryKey: 'reference_number' }, wait: true)
+    client.create_index('books', primaryKey: 'reference_number', wait: true)
 
     task = client.index('books').update(primaryKey: 'international_standard_book_number')
     expect(task['type']).to eq('indexUpdate')
@@ -177,7 +177,7 @@ RSpec.describe MeiliSearch::Index do
   end
 
   it 'works with method aliases' do
-    client.create_index('uid', { primaryKey: 'primary_key' }, wait: true)
+    client.create_index('uid', primaryKey: 'primary_key', wait: true)
 
     index = client.fetch_index('uid')
     expect(index.method(:fetch_primary_key) == index.method(:get_primary_key)).to be_truthy

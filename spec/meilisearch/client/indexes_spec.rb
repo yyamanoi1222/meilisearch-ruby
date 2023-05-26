@@ -32,7 +32,7 @@ RSpec.describe 'MeiliSearch::Client - Indexes' do
 
     context 'with a primary key' do
       it 'creates an index' do
-        task = client.create_index('books', { primaryKey: 'reference_code' })
+        task = client.create_index('books', primaryKey: 'reference_code')
 
         expect(task['type']).to eq('indexCreation')
 
@@ -46,7 +46,7 @@ RSpec.describe 'MeiliSearch::Client - Indexes' do
       end
 
       it 'creates an index synchronously' do
-        task = client.create_index('books', { primaryKey: 'reference_code' }, wait: true)
+        task = client.create_index('books', primaryKey: 'reference_code', wait: true)
 
         expect(task['type']).to eq('indexCreation')
         expect(task['status']).to eq('succeeded')
@@ -61,7 +61,7 @@ RSpec.describe 'MeiliSearch::Client - Indexes' do
 
       context 'when primary key option in snake_case' do
         it 'creates an index' do
-          task = client.create_index('books', { primary_key: 'reference_code' })
+          task = client.create_index('books', primary_key: 'reference_code')
           expect(task['type']).to eq('indexCreation')
           client.wait_for_task(task['taskUid'])
 
@@ -77,10 +77,8 @@ RSpec.describe 'MeiliSearch::Client - Indexes' do
         it 'ignores the uid option' do
           task = client.create_index(
             'books',
-            {
-              primaryKey: 'reference_code',
-              uid: 'publications'
-            }
+            primaryKey: 'reference_code',
+            uid: 'publications'
           )
 
           expect(task['type']).to eq('indexCreation')
@@ -175,7 +173,7 @@ RSpec.describe 'MeiliSearch::Client - Indexes' do
 
   describe '#fetch_index' do
     it 'fetches index by uid' do
-      client.create_index('books', { primaryKey: 'reference_code' }, wait: true)
+      client.create_index('books', primaryKey: 'reference_code', wait: true)
 
       fetched_index = client.fetch_index('books')
 
@@ -188,7 +186,7 @@ RSpec.describe 'MeiliSearch::Client - Indexes' do
 
   describe '#fetch_raw_index' do
     it 'fetch a specific index raw Hash response based on uid' do
-      client.create_index('books', { primaryKey: 'reference_code' }, wait: true)
+      client.create_index('books', primaryKey: 'reference_code', wait: true)
       index = client.fetch_index('books')
       raw_response = index.fetch_raw_info
 
@@ -204,7 +202,7 @@ RSpec.describe 'MeiliSearch::Client - Indexes' do
 
   describe '#index' do
     it 'returns an index object with the provided uid' do
-      client.create_index('books', { primaryKey: 'reference_code' }, wait: true)
+      client.create_index('books', primaryKey: 'reference_code', wait: true)
       # this index is in memory, without metadata from server
       index = client.index('books')
 

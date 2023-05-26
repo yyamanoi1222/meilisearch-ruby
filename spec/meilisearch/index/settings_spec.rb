@@ -552,7 +552,7 @@ RSpec.describe 'MeiliSearch::Index - Settings' do
   context 'Index with primary-key' do
     let(:index) { client.index(uid) }
 
-    before { client.create_index(uid, { primaryKey: 'id' }, wait: true) }
+    before { client.create_index(uid, primaryKey: 'id', wait: true) }
 
     it 'gets the default values of settings' do
       settings = index.settings
